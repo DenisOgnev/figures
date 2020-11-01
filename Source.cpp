@@ -4,29 +4,39 @@
 #include <ctime>
 #include <algorithm>
 #include "figures.h"
+#include <typeinfo>
 
 using namespace std;
 
-bool compare_ellipses(ellipse* e1, ellipse* e2) { return e1->getArea() < e2->getArea(); };
-
 int main()
 {
-	double a, b, x0, y0, sumOfAreas = 0;
+	vector<shared_ptr<figure>> v;
+	double a, b, sumOfAreas = 0;
 	int size = 10;
-	vector<ellipse*> v;
 	srand(time(NULL));
+
+	int choose;
 
 	for (int i = 0; i < size; i++)
 	{
+		choose = rand() % 2 + 1;
 		a = (double)(rand()) / RAND_MAX * 20;
 		b = (double)(rand()) / RAND_MAX * 20;
-		y0 = (double)(rand()) / RAND_MAX * 20;
-		x0 = (double)(rand()) / RAND_MAX * 20;
-		//ellipse *e = new ellipse(a, b, x0, y0);
-		v.push_back(new ellipse(a, b, x0, y0));
+		if (choose == 1)
+		{
+			circle* c = new circle(a);
+			shared_ptr<circle> ptr(c);
+			v.push_back(ptr);
+		}
+		else
+		{
+			ellipse* e = new ellipse(a, b);
+			shared_ptr<ellipse> ptr(e);
+			v.push_back(ptr);
+		}
 	}
 
-	sort(v.begin(), v.end(), compare_ellipses);
+	sort(v.begin(), v.end(), Comparator());
 
 	for (int i = 0; i < size; i++)
 	{
@@ -39,7 +49,6 @@ int main()
 	}
 
 	cout << "\nSum of areas: " << sumOfAreas << endl;
-
 
 	return 0;
 }

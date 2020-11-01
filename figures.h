@@ -3,51 +3,41 @@
 
 class figure
 {
-protected:
-	double a, b, x0, y0;
-
 public:
 	virtual double getArea() = 0;
 };
 
-class circle : virtual figure
+class circle : public figure
 {
+private:
+	double a;
 public:
-	circle() {};
-	circle(double _a, double _x0, double _y0) 
+	circle(double _a) 
 	{ 
 		if (_a < 0)
-		{
 			throw "Radius can't be negative";
-		}
 		a = _a;
-		b = _a;
-		x0 = _x0;
-		y0 = _y0;
 	};
-	virtual double getArea() { return acos(-1) * a * b; };
+	double getArea() override { return acos(-1) * a * a; };
 };
 
-class ellipse : virtual figure
+class ellipse : public figure
 {
+private:
+	double a, b;
 public:
-	ellipse() {};
-	ellipse(double _a, double _b, double _x0, double _y0) 
+	ellipse(double _a, double _b) 
 	{
 		if (_a < 0 || _b < 0)
-		{
 			throw "Radius can't be negative";
-		}
 		a = _a;
 		b = _b;
-		x0 = _x0;
-		y0 = _y0;
 	};
-	virtual double getArea() { return acos(-1) * a * b; };
+	double getArea() override { return acos(-1) * a * b; };
 };
 
 struct Comparator
 {
-	bool operator()(ellipse* e1, ellipse* e2) { return e1->getArea() < e2->getArea(); }
+	bool operator()(const std::shared_ptr<figure>& f1, const std::shared_ptr<figure>& f2) {return f1->getArea() < f2->getArea(); }
 };
 
