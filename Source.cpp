@@ -10,6 +10,7 @@ using namespace std;
 
 int main()
 {
+	visitor* Visitor = new visitor();
 	vector<shared_ptr<figure>> v;
 	double a, b, sumOfAreas = 0;
 	int size = 10;
@@ -41,6 +42,7 @@ int main()
 	for (int i = 0; i < size; i++)
 	{
 		cout << v[i]->getArea() << endl;
+		v[i]->accept(Visitor);
 	}
 
 	for (int i = 0; i < v.size(); i++)
